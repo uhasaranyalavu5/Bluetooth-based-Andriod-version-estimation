@@ -1,6 +1,3 @@
-
-
-```markdown
 # 🔒 Bluetooth CVE Detection Tool
 
 This is a Linux-based C project that scans a remote Bluetooth device to infer its **Android version** (or device type) using SDP (Service Discovery Protocol), LMP version, BLE support, and Bluetooth service profile checks. It also searches a local database of CVEs (Common Vulnerabilities and Exposures) relevant to the estimated version using JSON CVE data files.
@@ -141,7 +138,7 @@ Description: Bluetooth vulnerability in Android 11 allows privilege escalation v
 
 * [Bluetooth SDP (Service Discovery Protocol)](https://www.bluetooth.com/specifications/specs/service-discovery-protocol/)
 * [Bluetooth LMP Version Table](https://www.bluetooth.com/specifications/assigned-numbers/link-manager/)
-* [National Vulnerability Database (NVD)](https://nvd.nist.gov/)
+* [CVE Database](https://github.com/CVEProject/cvelistV5)
 
 ---
 
