@@ -1,106 +1,149 @@
-🔍 Bluetooth CVE Detection Tool
-This tool analyzes a target Bluetooth device (given its MAC address) and estimates its Android version or device type using LMP version, supported Bluetooth services, and BLE capability. It also searches for known CVEs (Common Vulnerabilities and Exposures) related to the estimated version.
+Sure! Below is a **complete and well-structured `README.md`** file that you can **copy and paste into your GitHub repository** for the Bluetooth CVE Detection Tool project.
 
-🧠 Features
-Identifies Bluetooth profiles: A2DP, MAP, PBAP, HFP, OPP.
+---
 
-Retrieves the target's LMP (Link Manager Protocol) version.
+```markdown
+# 🔒 Bluetooth CVE Detection Tool
 
-Checks if the local adapter supports BLE.
+This is a Linux-based C project that scans a remote Bluetooth device to infer its **Android version** (or device type) using SDP (Service Discovery Protocol), LMP version, BLE support, and Bluetooth service profile checks. It also searches a local database of CVEs (Common Vulnerabilities and Exposures) relevant to the estimated version using JSON CVE data files.
 
-Estimates Android version/device type based on weighted heuristics.
+---
 
-Searches a local CVE dataset (JSON format) for vulnerabilities matching the device type/version.
+## 📌 Features
 
-📁 Project Structure
-pgsql
-Copy
-Edit
+- ✅ Detects Bluetooth profiles (A2DP, HFP, MAP, PBAP, OPP)
+- ✅ Determines LMP (Link Manager Protocol) version
+- ✅ Checks BLE (Bluetooth Low Energy) support
+- ✅ Estimates Android OS version or identifies non-Android Bluetooth devices
+- ✅ Searches local CVE JSON files for matching vulnerabilities
+- ✅ Outputs weighted score and detailed summary
+
+---
+
+## 📂 Project Structure
+
+```
+
 bluetooth-cve-detector/
-├── bluetooth_cve_detector.c
-├── README.md
-└── cve_data/             # Folder containing .json CVE files (downloaded from NVD or similar)
-🧰 Requirements
-Linux system (Tested on Kali Linux)
+├── bluetooth\_cve\_tool.c       # Main C program
+├── cve\_data/                  # Folder containing .json CVE files
+│   ├── cve1.json
+│   ├── cve2.json
+│   └── ...
+├── Makefile                   # For easy compilation (optional)
+└── README.md                  # You're here!
 
-Bluetooth development libraries
+````
 
-libbluetooth-dev
+---
 
-libjansson-dev
+## 🛠️ Requirements
 
-Root privileges (for accessing Bluetooth device info)
+Install the following libraries and headers:
 
-📦 Install Dependencies
-Use the following command to install all necessary packages:
-
-bash
-Copy
-Edit
+```bash
 sudo apt update
 sudo apt install libbluetooth-dev libjansson-dev build-essential
-🛠️ Compile the Tool
-bash
-Copy
-Edit
-gcc bluetooth_cve_detector.c -o bluetooth_cve_detector -lbluetooth -ljansson
-🚀 How to Use
-bash
-Copy
-Edit
-sudo ./bluetooth_cve_detector <BLUETOOTH_MAC_ADDRESS>
+````
+
+Make sure you also have `bluez` installed:
+
+```bash
+sudo apt install bluez
+```
+
+---
+
+## 🧑‍💻 Compilation
+
+Use `gcc` to compile the tool:
+
+```bash
+gcc bluetooth_cve_tool.c -o bluetooth_cve_tool -lbluetooth -ljansson
+```
+
+Or use a `Makefile` (optional):
+
+```bash
+make
+```
+
+---
+
+## ▶️ Usage
+
+```bash
+./bluetooth_cve_tool <BLUETOOTH_MAC_ADDRESS>
+```
+
 Example:
 
-bash
-Copy
-Edit
-sudo ./bluetooth_cve_detector 00:11:22:33:44:55
-The tool will:
+```bash
+./bluetooth_cve_tool 00:1A:7D:DA:71:13
+```
 
-Query available Bluetooth profiles via SDP.
+Make sure your Bluetooth adapter is turned on and in range of the target device.
 
-Retrieve the LMP version.
+---
 
-Check BLE support on your adapter.
+## 📥 CVE Data Format
 
-Estimate the Android version or type.
+* Place your CVE JSON files in the `cve_data/` directory.
+* Each file should follow the NVD (National Vulnerability Database) format, e.g.:
 
-Search the cve_data folder for related CVEs.
+```json
+{
+  "CVE_Items": [
+    {
+      "cve": {
+        "CVE_data_meta": {
+          "ID": "CVE-2022-12345"
+        },
+        "description": {
+          "description_data": [
+            {
+              "value": "Bluetooth vulnerability in Android 10 allowing unauthorized access..."
+            }
+          ]
+        }
+      }
+    }
+  ]
+}
+```
 
-📂 CVE Data Directory
-Make sure to download relevant CVE JSON files into:
+---
 
-swift
-Copy
-Edit
-/home/kali/Desktop/coding/cve/cve_data/
-Or modify the path in the source code:
+## 📊 Output Example
 
-c
-Copy
-Edit
-#define CVE_DIR "/path/to/your/cve_data"
-Each file should follow the NVD format and contain a CVE_Items array.
-
-📝 Sample Output
-yaml
-Copy
-Edit
+```text
 [*] Querying extended SDP services...
-[*] LMP version detected: 11
+[*] LMP version detected: 10
 [*] Local adapter supports BLE: Yes
+→ Weighted Score: 6.73
 
 ===== Bluetooth Device Estimation =====
-LMP Version: 11
+LMP Version: 10
 A2DP: Present
-MAP: Present
-PBAP: Present
+MAP: Absent
+PBAP: Absent
 HFP: Present
-OPP: Present
+OPP: Absent
 BLE Support: Yes
-Estimated Device Type/Android Version: Android 13 (Tiramisu)
+Estimated Device Type/Android Version: Android 11 (Red Velvet Cake)
 
-[*] Looking up CVEs related to Android 13...
-CVE ID: CVE-2023-12345
-Description: Vulnerability in the Bluetooth stack of Android 13...
-...
+[*] Looking up CVEs related to Android 11...
+CVE ID: CVE-2022-12345
+Description: Bluetooth vulnerability in Android 11 allows privilege escalation via SDP...
+```
+
+---
+
+## 📚 References
+
+* [Bluetooth SDP (Service Discovery Protocol)](https://www.bluetooth.com/specifications/specs/service-discovery-protocol/)
+* [Bluetooth LMP Version Table](https://www.bluetooth.com/specifications/assigned-numbers/link-manager/)
+* [National Vulnerability Database (NVD)](https://nvd.nist.gov/)
+
+---
+
