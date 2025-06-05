@@ -1,6 +1,4 @@
-Sure! Below is a **complete and well-structured `README.md`** file that you can **copy and paste into your GitHub repository** for the Bluetooth CVE Detection Tool project.
 
----
 
 ```markdown
 # 🔒 Bluetooth CVE Detection Tool
